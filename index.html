@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Merhaba, ben bir Front-End Developer'ım. Portföyümü görmek için bu sayfaya göz atın.">
+    <meta name="keywords" content="front-end developer, portföy, web tasarım">
+    <meta name="author" content="Adınız">
+    <title>Yağmurlu Portföy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url(maxresdefault1.jpg) no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            overflow: hidden;
+            text-align: center;
+        }
+        .rain, .thunder, .fog, .leaves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .container {
+            padding: 50px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: cyan;
+        }
+        h1 {
+            font-size: 50px;
+            text-shadow: 0 0 10px cyan;
+        }
+        .hamburger-menu {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 10px;
+            }
+            nav a {
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 30px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .hamburger-menu {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+            #mobile-nav {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 20px;
+                border-radius: 10px;
+            }
+            #mobile-nav a {
+                font-size: 18px;
+                color: white;
+                text-decoration: none;
+            }
+            #mobile-nav a:hover {
+                color: cyan;
+            }
+            .hamburger-menu.active + #mobile-nav {
+                display: flex;
+            }
+        }
+
+        @keyframes lightning {
+            0% { opacity: 0; }
+            50% { opacity: 1; background: white; }
+            100% { opacity: 0; }
+        }
+        .thunder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            display: none;
+            animation: lightning 0.2s infinite;
+        }
+
+        .animated-section {
+            opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;             
+    justify-content: center;   
+    align-items: center;       
+    text-align: center;       
+    flex-direction: column;     
+    height: 100vh;             
+    margin: 0;                 
+    padding: 20px;             
+        }
+        .animated-section.visible {
+            opacity: 1;
+        }
+
+        .skills {
+            display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;  
+        }
+
+        .skill {
+            text-align: left;
+        }
+
+        .skill p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .skill-bar {
+            height: 20px;
+            background-color: rgb(236, 16, 16);
+            border-radius: 5px;
+            position: relative;
+            width: 100%;
+        }
+
+        .skill-bar.html {
+            width: 500%;
+            background-color: #12caeb;
+        }
+
+        .skill-bar.css {
+            width: 480%;
+            background-color: #2be605;
+        }
+
+        .skill-bar.js {
+            width: 470%;
+            background-color: #f7df1e;
+        }
+        .skill-bar-education1{
+            height: 20px;
+            background-color: rgb(25, 238, 43);
+            border-radius: 5px;
+            position: relative;
+            width: 100%;
+        }
+       .skill-bar-education2{
+        height: 20px;
+            background-color: rgb(191, 243, 5);
+            border-radius: 5px;
+            position: relative;
+            width: 200%;
+       }
+       .skill-bar-education3{
+        height: 20px;
+            background-color: rgb(235, 11, 167);
+            border-radius: 5px;
+            position: relative;
+            width: 200%;
+       }
+       .skill-bar-education31{
+        height: 20px;
+            background-color: rgb(13, 245, 226);
+            border-radius: 5px;
+            position: relative;
+            width: 200%;
+       }
+       .audio-player-button, .stop-button {
+            color: white;
+            font-size: 20px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px; 
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 5px; 
+            z-index: 1;
+            transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            font-weight: bold;
+            font-family: 'Arial', sans-serif;
+        }
+        .audio-player-button {
+            right: 20px;
+            background: linear-gradient(135deg, #dbb434, #9b59b6,); 
+        }
+        .stop-button {
+            left: 20px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12,);
+            display: none; 
+        }
+
+        
+        .audio-player-button:hover, .stop-button:hover {
+            background-color: #34495e;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px); 
+        }
+
+       
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+      
+        @keyframes colorChange {
+            0% {
+                background-color: #3498db;
+            }
+            14% {
+                background-color: #e74c3c;
+            }
+            28% {
+                background-color: #2ecc71;
+            }
+            42% {
+                background-color: #f39c12;
+            }
+            57% {
+                background-color: #9b59b6;
+            }
+            71% {
+                background-color: #1abc9c;
+            }
+            85% {
+                background-color: #34495e;
+            }
+            100% {
+                background-color: #3498db;
+            }
+        }
+
+       
+        .audio-player-button, .stop-button {
+            animation: pulse 1s infinite, colorChange 1s infinite; 
+        }
+
+     
+        .audio-player {
+            display: none;
+        }
+       
+    </style>
+</head>
+<body>
+    </div>
+    <canvas class="rain"></canvas>
+    <div class="thunder"></div>
+    <canvas class="fog"></canvas>
+    <canvas class="leaves"></canvas>
+
+    <div class="hamburger-menu">
+        <span>&#9776;</span>
+    </div>
+    <nav id="mobile-nav">
+        <a href="#home" onclick="showSection('home')">Ana Sayfa</a>
+        <a href="#about" onclick="showSection('about')">Hakkımda</a>
+        <a href="#education" onclick="showSection('education')">Eğitim</a>
+        <a href="#contact" onclick="showSection('contact')">İletişim</a>
+    </nav>
+
+    <div class="container" id="home">
+        <h1>Merhaba, Ben Bir Front-End Developer'ım</h1>
+        <p>Portföyüme hoş geldiniz!</p>
+    </div>
+
+    <div class="animated-section" id="about">
+        <h2>Hakkımda</h2>
+        <p>Ben, web tasarımı ve kullanıcı deneyimi konusunda tutkulu bir Front-End Developer'ım. HTML, CSS ve JavaScript gibi teknolojilerle web sayfaları yaratmak, kullanıcı dostu deneyimler oluşturmak benim için bir tutku. Her zaman yeni teknolojileri öğrenmeye, daha etkili ve yaratıcı çözümler üretmeye çalışıyorum.</p>
+
+        <h3>Yeteneklerim</h3>
+        <div class="skills">
+            <div class="skill">
+                <p>HTML</p>
+                <div class="skill-bar html"></div>
+            </div>
+            <div class="skill">
+                <p>CSS</p>
+                <div class="skill-bar css"></div>
+            </div>
+            <div class="skill">
+                <p>JavaScript</p>
+                <div class="skill-bar js"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="animated-section" id="education">
+        <h3>Eğitimlerim</h3>
+        <div class="education-item">
+            <h4>Siliconmade Academy</h4>
+            <p><strong>Program:</strong> Mobil Veri Front-End</p>
+            <p><strong>Tarih:</strong> 2025 - Halen</p>
+            <div class="skill-bar-education1"></div>
+        </div>
+        <div class="skills1">
+            <div class="skill1">
+                <h4>Kocaeli Üniversitesi</h4>
+                <p><strong>Program:</strong>Elektonik Haberleşme</p>
+                <p><strong>Tarih:</strong> 2015 - 2028</p>
+                <div class="skill-bar-education2" style="width: 100%;"></div>
+            </div>
+            <div class="skill2">
+                <h4>Web Tasarım Sertifikası</h4>
+                <p><strong>Program:</strong> Web Tasarım & Geliştirme</p>
+                <p><strong>Tarih:</strong> 2025</p>
+                <div class="skill-bar-education3" style="width: 100%;"></div>
+            </div>
+        </div>
+        
+      
+       
+    </div>
+    <div class = "animated-section" id = "contact">
+        <h3>İletişim</h3>
+        <p>Benimle iletişime geçmek için aşağıdaki bağlantıya tıklayabilirsiniz.</p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/ACKNOWLEDGEME41" target="_blank" style="color: aqua;">GitHub Profilim</a></p>
+        <div class="skill-bar-education31" style="width: 100%;"></div>
+
+        </div>
+        <button class="audio-player-button" onclick="playAudio()">Şarkıyı Çal</button>
+        <button class="stop-button" onclick="stopAudio()">Müziği Durdur</button>
+       
+        <div class="audio-player">
+            <audio id="audio-player" controls autoplay>
+               
+                <source src="Fatih Harbiye [ Fon Müziği ] [WEMbwugK4wI].mp3" type="audio/mp3">
+               
+            </audio>
+        </div>
+    
+
+    <script>
+         var audioPlayer = document.getElementById('audio-player');
+        var stopButton = document.querySelector('.stop-button');
+
+        function playAudio() {
+           
+            document.querySelector('.audio-player-button').style.display = 'none';
+          
+            document.querySelector('.audio-player').style.display = 'block';
+          
+            stopButton.style.display = 'block';
+          
+            audioPlayer.play().catch(function(error) {
+                console.log("Hata: " + error);
+            });
+            audioPlayer.onended = function() {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+            };
+        }
+
+        function stopAudio() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            stopButton.style.display = 'none';
+            document.querySelector('.audio-player-button').style.display = 'block';
+        }
+        const canvas = document.querySelector(".rain");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let raindrops = [];
+
+        
+        class Raindrop {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 30 + 15; 
+                this.speed = Math.random() * 5 + 5; 
+            }
+            fall() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x, this.y + this.length);
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+                ctx.lineWidth = 2; 
+                ctx.stroke();
+            }
+        }
+
+       
+        function createRain() {
+            for (let i = 0; i < 200; i++) { 
+                raindrops.push(new Raindrop());
+            }
+        }
+
+      
+        function animateRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            raindrops.forEach(drop => {
+                drop.fall();
+                drop.draw();
+            });
+            requestAnimationFrame(animateRain);
+        }
+
+        createRain();
+        animateRain();
+
+       
+        function thunderEffect() {
+            const thunder = document.querySelector(".thunder");
+            setInterval(() => {
+                thunder.style.display = "block";
+                thunder.style.animation = "lightning 0.3s";
+                setTimeout(() => thunder.style.display = "none", 300);
+            }, 1000);
+        }
+        thunderEffect();
+
+      
+        const hamburgerMenu = document.querySelector(".hamburger-menu");
+        hamburgerMenu.addEventListener("click", () => {
+            hamburgerMenu.classList.toggle("active");
+        });
+
+       
+        function showSection(section) {
+            const sections = document.querySelectorAll('.animated-section');
+            sections.forEach(s => s.classList.remove('visible'));
+            const targetSection = document.getElementById(section);
+            targetSection.classList.add('visible');
+        }
+    </script>
+</body>
+</html>
