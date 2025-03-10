@@ -216,7 +216,7 @@
             position: absolute;
             top: 5px; 
             z-index: 1;
-            transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.1s ease, background-color 0.1s ease, box-shadow 0.1s ease;
             font-weight: bold;
             font-family: 'Arial', sans-serif;
         }
@@ -340,10 +340,33 @@
                 left: 100vw;
             }
         }
+        .snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2; 
+    animation: snowFall 10s linear infinite;
+}
+
+@keyframes snowFall {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100%;
+    }
+}
+
        
     </style>
 </head>
 <body>
+    <canvas class="snow"></canvas>
+
+    </audio>
     </div>
     <canvas class="rain"></canvas>
     <div class="thunder"></div>
@@ -398,7 +421,7 @@
             <div class="skill1">
                 <h4>Kocaeli Üniversitesi</h4>
                 <p><strong>Program:</strong>Elektonik Haberleşme</p>
-                <p><strong>Tarih:</strong> 2015 - 2028</p>
+                <p><strong>Tarih:</strong> 2015 - 2018</p>
                 <div class="skill-bar-education2" style="width: 100%;"></div>
             </div>
             <div class="skill2">
@@ -432,6 +455,7 @@
     
 
     <script>
+        
          var audioPlayer = document.getElementById('audio-player');
         var stopButton = document.querySelector('.stop-button');
 
@@ -536,9 +560,96 @@
         }
         function thunderEffect() {
     const thunder = document.querySelector(".thunder");
-    thunder.style.display = "block"; // Şimşek efekti her zaman görünür
+    thunder.style.display = "block"; 
 }
 thunderEffect();
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered:', reg))
+            .catch(err => console.log('Service Worker registration failed:', err));
+    });
+}
+
+const canvasSnow = document.querySelector(".snow");
+const ctxSnow = canvasSnow.getContext("2d");
+canvasSnow.width = window.innerWidth;
+canvasSnow.height = window.innerHeight;
+
+let snowflakes = [];
+
+class Snowflake {
+    constructor() {
+        this.x = Math.random() * canvasSnow.width;
+        this.y = Math.random() * canvasSnow.height;
+        this.size = Math.random() * 20 + 10; 
+        this.speed = Math.random() * 3 + 3; 
+        this.wind = Math.random() * 10 - 5; 
+        this.opacity = Math.random() * 0.5 + 0.3; 
+    }
+    
+   
+    drawStar(x, y, radius, spikes) {
+        const rotation = (Math.PI / 2) * 3;
+        const step = Math.PI / spikes;
+
+        ctxSnow.beginPath();
+        ctxSnow.moveTo(x, y - radius); 
+
+        for (let i = 0; i < spikes; i++) {
+            let angle = rotation + step * i;
+            let xOffset = Math.cos(angle) * radius;
+            let yOffset = Math.sin(angle) * radius;
+            ctxSnow.lineTo(x + xOffset, y + yOffset);
+            angle += Math.PI / spikes;
+            xOffset = Math.cos(angle) * radius / 2; 
+            yOffset = Math.sin(angle) * radius / 2;
+            ctxSnow.lineTo(x + xOffset, y + yOffset);
+        }
+
+        ctxSnow.lineTo(x, y - radius); 
+        ctxSnow.closePath();
+        ctxSnow.fill();
+    }
+
+    fall() {
+        this.y += this.speed;
+        this.x += this.wind;
+
+       
+        if (this.y > canvasSnow.height) {
+            this.y = 0;
+            this.x = Math.random() * canvasSnow.width;
+        }
+
+       
+        if (this.x > canvasSnow.width) this.x = 0;
+        if (this.x < 0) this.x = canvasSnow.width;
+    }
+
+    draw() {
+        ctxSnow.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        this.drawStar(this.x, this.y, this.size, 5); 
+    }
+}
+
+function createSnowflakes() {
+    for (let i = 0; i < 700; i++) { 
+        snowflakes.push(new Snowflake());
+    }
+}
+
+function animateSnow() {
+    ctxSnow.clearRect(0, 0, canvasSnow.width, canvasSnow.height);
+    snowflakes.forEach(snowflake => {
+        snowflake.fall();
+        snowflake.draw();
+    });
+    requestAnimationFrame(animateSnow);
+}
+
+createSnowflakes();
+animateSnow();
     </script>
 </body>
 </html>
